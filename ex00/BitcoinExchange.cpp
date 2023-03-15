@@ -52,15 +52,27 @@ void BitcoinExchange::add(const std::string &date, const std::string &rate) {
 }
 
 float BitcoinExchange::getRateByDate(const std::string &date) {
-    
-    if (isExistsDate(date))
-    {
-        // TODO:dateが存在しなかったときの処理を書く
-        throw std::runtime_error("Error: no applicable rates found");
-    }
     return _price[date];
 }
 
 bool BitcoinExchange::isExistsDate(const std::string &date) {
     return _price.count(date);
+}
+
+std::map<std::string, float>::const_iterator BitcoinExchange::findLessEqual(const std::string& key) {
+       std::map<std::string, float>::const_iterator it = _price.lower_bound(key);
+
+    if (it != _price.begin()) {
+        if (it == _price.end() || it->first != key) {
+            --it;
+        }
+    } else if (it == _price.end() || it->first > key) {
+        return _price.end(); // Not found
+    }
+
+    return it;
+}
+
+std::map<std::string, float>::const_iterator BitcoinExchange::getPriceEnd() {
+    return _price.end();
 }

@@ -31,8 +31,6 @@ BitcoinExchange *storeCsvInMemory() {
         
         bitcoinExchange->add(date, rate);
     }
-    // float f = bitcoinExchange.getRateByDate("2011-10-23");
-    // std::cout << "rates: " << f << std::endl;
     ifs.close();
     return bitcoinExchange;
 }
@@ -71,6 +69,7 @@ bool isValidDate(const std::string& date) {
     return true;
 }
 
+
 void validateArg(std::string filename) {
     std::string line;
     std::string separator = "|";
@@ -100,7 +99,7 @@ void validateArg(std::string filename) {
     {
         pos = line.find(separator);
         if (pos == std::string::npos) {
-             throw std::runtime_error("Error: csv format");
+             throw std::runtime_error("Error: txt format");
         }
         std::string date = line.substr(0,pos);
         std::string value = line.substr(pos + 1, line.size());
@@ -114,18 +113,6 @@ void validateArg(std::string filename) {
         if (date[date.size() - 1] != ' ' || value[0] != ' ') {
             std::cerr << "Error: line count: " << line_count << std::endl;
             throw std::runtime_error("Error: attribute needs space. ex) 'date | value'");
-        }
-        
-        // 値チェック
-        float valuef = stringToFloat(value);
-        if (valuef < 0 || valuef > 1000) {
-            std::cerr << "Error: line count: " << line_count << std::endl;
-            throw std::runtime_error("Error: value must be between 0 to 1000");
-        }
-
-        if (isValidDate(date)) {
-            std::cerr << "Error: line count: " << line_count << std::endl;
-            throw std::runtime_error("Error: invalid date format ex) Year-Month-Day");
         }
     }
     ifs.close();
@@ -145,24 +132,66 @@ void displayExchangeRate(BitcoinExchange *bic, std::string filename) {
     std::string::size_type pos = 0;
     
     // body
-    size_t line_count = 1;
+    size_t line_count = 0;
     while (std::getline(ifs, line))
     {
+        line_count++;
         pos = line.find(separator);
         if (pos == std::string::npos) {
-             throw std::runtime_error("Error: csv format");
+            std::cerr << "Error: bad input => " << line << std::endl;
+            continue;
         }
-        // '|'の前の空白を削除
-        std::string date = line.substr(0,pos - 1);
-        // '|'の後の空白を削除
-        std::string value = line.substr(pos + 2, line.size());
+        std::string date = line.substr(0,pos);
+        std::string value = line.substr(pos + 1, line.size());
         
+        // 文字列チェック
+        if (date.empty() || value.empty()) {
+            std::cout << "Error: bad input => " << line << std::endl;
+            continue;
+        }
+        
+        if (date[date.size() - 1] != ' ' || value[0] != ' ') {
+            std::cout << "Error: bad input => " << line << std::endl;
+            continue;
+        }
+        
+        // '|'の前の空白を削除
+        date = line.substr(0,pos - 1);
+        // '|'の後の空白を削除
+        value = line.substr(pos + 2, line.size());
+        
+        // 値チェック
+        float valuef = stringToFloat(value);
+        if (valuef < 0) {
+            std::cout << "Error: not a positive number." << std::endl;
+            continue;
+        } else if (valuef > 1000) {
+            std::cout << "Error: too large a number." << std::endl;
+            continue;
+        }
+
+        if (!isValidDate(date)) {
+            std::cout << "Error: bad input => " << line << std::endl;
+            continue;
+        }
+        float rate;
         if (bic->isExistsDate(date))
         {
-            float rate = bic->getRateByDate(date); 
+            rate = bic->getRateByDate(date);
+            float valuef = stringToFloat(value);
+            
+            std::cout << date << " => " << value << " = " << rate * valuef << std::endl;
+            
+            
         } else {
             // 直近のレートを探す。
-            
+            std::map<std::string, float>::const_iterator it = bic->findLessEqual(date);
+            rate = it->second;
+            if (it != bic->getPriceEnd()) {
+                std::cout << date << " => " << value << " = " << rate * valuef << std::endl;
+            } else {
+                std::cout << "Error: bad input => " << line << std::endl;
+            }
         }
     }
 }
@@ -180,7 +209,7 @@ int main(int argc, char const *argv[])
     try
     {
         bitcoinExchange = storeCsvInMemory();
-        validateArg(filename);
+        // validateArg(filename);
         displayExchangeRate(bitcoinExchange ,filename);
     }
     catch(const std::exception& e)
