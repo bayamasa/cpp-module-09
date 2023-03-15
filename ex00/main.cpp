@@ -17,11 +17,15 @@ int main(int argc, char const *argv[])
         std::exit(EXIT_FAILURE);
     }
     
+    BitcoinExchange bitcoinExchange;
     std::string line;
     std::string separator = ",";
+    
+    // 最初の行は読み飛ばす
+    std::getline(ifs, line);
+    
     while (std::getline(ifs, line))
     {
-        // std::cout << line << std::endl;
         std::string::size_type pos = 0;
         pos = line.find(separator);
         if (pos == std::string::npos) {
@@ -32,11 +36,10 @@ int main(int argc, char const *argv[])
         std::string date = line.substr(0,pos);
         std::string rate = line.substr(pos + 1, line.size());
         
-        // std::cout << date << std::endl;
-        // std::cout << rate << std::endl;
-        
+        bitcoinExchange.add(date, rate);
     }
-    
+    float f = bitcoinExchange.getRateByDate("2011-10-23");
+    std::cout << "rates: " << f << std::endl;
     return 0;
 }
 
