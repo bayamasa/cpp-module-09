@@ -17,6 +17,10 @@ public:
     BitcoinExchange &operator=(const BitcoinExchange &other);
     void add(const std::string &date, const std::string &rate);
     float getRateByDate(const std::string &date);
+    bool isExistsDate(const std::string &date);
 };
+
+float stringToFloat(const std::string& input);
+
 
 #endif

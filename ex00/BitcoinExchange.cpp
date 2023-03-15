@@ -53,10 +53,14 @@ void BitcoinExchange::add(const std::string &date, const std::string &rate) {
 
 float BitcoinExchange::getRateByDate(const std::string &date) {
     
-    if (_price.count(date) == 0)
+    if (isExistsDate(date))
     {
         // TODO:dateが存在しなかったときの処理を書く
         throw std::runtime_error("Error: no applicable rates found");
     }
     return _price[date];
+}
+
+bool BitcoinExchange::isExistsDate(const std::string &date) {
+    return _price.count(date);
 }
