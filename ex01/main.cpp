@@ -6,7 +6,7 @@
 int main(int argc, char const *argv[])
 {
     if (argc != 2) {
-        std::cout << "Error: need text file in args" << std::endl;
+        std::cout << "Error: need one args" << std::endl;
         std::exit(EXIT_FAILURE);
     }
     
