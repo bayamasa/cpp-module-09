@@ -137,6 +137,7 @@ void PmergeMe::mergeDeque(int left, int mid, int right) {
 }
 
 void PmergeMe::mergeInsertionSortVector(int left, int right) {
+    std::clock_t start_time = std::clock();
     const int threshold = 5;
 
     if (right - left <= threshold) {
@@ -149,9 +150,12 @@ void PmergeMe::mergeInsertionSortVector(int left, int right) {
             mergeVector(left, mid, right);
         }
     }
+    std::clock_t end_time = std::clock();
+    _vector_sort_time = static_cast<double>(end_time - start_time) / CLOCKS_PER_SEC * 1000000;
 }
 
 void PmergeMe::mergeInsertionSortDeque(int left, int right) {
+    std::clock_t start_time = std::clock();
     const int threshold = 5;
 
     if (right - left <= threshold) {
@@ -164,6 +168,8 @@ void PmergeMe::mergeInsertionSortDeque(int left, int right) {
             mergeDeque(left, mid, right);
         }
     }
+    std::clock_t end_time = std::clock();
+    _deque_sort_time = static_cast<double>(end_time - start_time) / CLOCKS_PER_SEC * 1000000;
 }
 
 void PmergeMe::sort() {
@@ -171,4 +177,15 @@ void PmergeMe::sort() {
     mergeInsertionSortDeque(0, _deque_array.size() - 1);
 }
 
-
+void PmergeMe::displayElapsedTime() {
+    std::cout   << "Time to process a range of "
+                << _vector_array.size() 
+                << " elements with std::vector : "
+                << _vector_sort_time
+                << " us" << std::endl;
+    std::cout   << "Time to process a range of "
+                << _deque_array.size() 
+                << " elements with std::deque : "
+                << _deque_sort_time
+                << " us" << std::endl;
+}

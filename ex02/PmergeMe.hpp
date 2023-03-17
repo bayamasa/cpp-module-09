@@ -14,6 +14,7 @@ private:
     std::vector<size_t> _vector_array;
     std::deque<size_t> _deque_array;
     double _vector_sort_time;
+    double _deque_sort_time;
     
 public:
     PmergeMe();
@@ -30,6 +31,7 @@ public:
     void mergeVector(int left, int mid, int right);
     void mergeDeque(int left, int mid, int right);
     void sort();
+    void displayElapsedTime();
 };
 
 #endif

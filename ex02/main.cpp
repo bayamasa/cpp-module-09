@@ -28,4 +28,5 @@ int main(int argc, char const *argv[])
     pmergeMe.displayAllVectorAttr(true);
     pmergeMe.sort();
     pmergeMe.displayAllVectorAttr(false);
+    pmergeMe.displayElapsedTime();
 }
