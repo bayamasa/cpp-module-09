@@ -155,12 +155,10 @@ void PmergeMe::mergeInsertionSortVector(int left, int right) {
     if (right - left <= threshold) {
         insertionSortVector(left, right);
     } else {
-        if (left < right) {
-            int mid = (right - left) / 2;
-            mergeInsertionSortVector(left, mid);
-            mergeInsertionSortVector(mid + 1, right);
-            mergeVector(left, mid, right);
-        }
+        int mid = (right - left) / 2;
+        mergeInsertionSortVector(left, mid);
+        mergeInsertionSortVector(mid + 1, right);
+        mergeVector(left, mid, right);
     }
     std::clock_t end_time = std::clock();
     _vector_sort_time = static_cast<double>(end_time - start_time) / CLOCKS_PER_SEC * 1000000;
@@ -173,12 +171,10 @@ void PmergeMe::mergeInsertionSortDeque(int left, int right) {
     if (right - left <= threshold) {
         insertionSortDeque(left, right);
     } else {
-        if (left < right) {
-            int mid = (right - left) / 2;
-            mergeInsertionSortDeque(left, mid);
-            mergeInsertionSortDeque(mid + 1, right);
-            mergeDeque(left, mid, right);
-        }
+        int mid = (right - left) / 2;
+        mergeInsertionSortDeque(left, mid);
+        mergeInsertionSortDeque(mid + 1, right);
+        mergeDeque(left, mid, right);
     }
     std::clock_t end_time = std::clock();
     _deque_sort_time = static_cast<double>(end_time - start_time) / CLOCKS_PER_SEC * 1000000;
