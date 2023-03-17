@@ -112,7 +112,16 @@ void displayExchangeRate(BitcoinExchange *bic, std::string filename) {
         value = line.substr(pos + 2, line.size());
         
         // 値チェック
-        float valuef = stringToFloat(value);
+        float valuef;
+        try
+        {
+           valuef = stringToFloat(value);
+        }
+        catch(const std::exception& e)
+        {
+            std::cout << e.what() << std::endl;
+            continue;
+        }
         if (valuef < 0) {
             std::cout << "Error: not a positive number." << std::endl;
             continue;

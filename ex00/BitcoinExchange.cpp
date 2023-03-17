@@ -24,9 +24,12 @@ float stringToFloat(const std::string& input) {
     ss >> result;
 
     if (ss.fail()) {
-        std::cout << "input: " << input << std::endl;
         throw std::runtime_error("Error: could not convert string to float");
     }
+    if (!ss.eof()) {
+        throw std::runtime_error("Error: extra characters exist");
+    }
+    
     return result;
 }
 
