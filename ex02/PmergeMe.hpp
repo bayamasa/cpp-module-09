@@ -15,6 +15,7 @@ private:
     std::deque<size_t> _deque_array;
     double _vector_sort_time;
     double _deque_sort_time;
+    int    _threshold;
     
 public:
     PmergeMe();

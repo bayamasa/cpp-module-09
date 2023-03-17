@@ -149,40 +149,43 @@ void PmergeMe::mergeDeque(int left, int mid, int right) {
 }
 
 void PmergeMe::mergeInsertionSortVector(int left, int right) {
-    std::clock_t start_time = std::clock();
-    const int threshold = _vector_array.size() / 2;
-
-    if (right - left <= threshold) {
+    if (right - left <= _threshold) {
         insertionSortVector(left, right);
     } else {
-        int mid = (right - left) / 2;
-        mergeInsertionSortVector(left, mid);
-        mergeInsertionSortVector(mid + 1, right);
-        mergeVector(left, mid, right);
+        if (left < right) {
+            int mid = (left + right) / 2;
+            mergeInsertionSortVector(left, mid);
+            mergeInsertionSortVector(mid + 1, right);
+            mergeVector(left, mid, right);
+        }
     }
-    std::clock_t end_time = std::clock();
-    _vector_sort_time = static_cast<double>(end_time - start_time) / CLOCKS_PER_SEC * 1000000;
 }
 
 void PmergeMe::mergeInsertionSortDeque(int left, int right) {
-    std::clock_t start_time = std::clock();
-    const int threshold = _deque_array.size() / 2;
-
-    if (right - left <= threshold) {
+    if (right - left <= _threshold) {
         insertionSortDeque(left, right);
     } else {
-        int mid = (right - left) / 2;
-        mergeInsertionSortDeque(left, mid);
-        mergeInsertionSortDeque(mid + 1, right);
-        mergeDeque(left, mid, right);
+        if (left < right) {
+            int mid = (left + right) / 2;
+            mergeInsertionSortDeque(left, mid);
+            mergeInsertionSortDeque(mid + 1, right);
+            mergeDeque(left, mid, right);
+        }
     }
-    std::clock_t end_time = std::clock();
-    _deque_sort_time = static_cast<double>(end_time - start_time) / CLOCKS_PER_SEC * 1000000;
 }
 
 void PmergeMe::sort() {
+    _threshold = 2;
+    std::clock_t vec_start_time = std::clock();
     mergeInsertionSortVector(0, _vector_array.size() - 1);
+    std::clock_t vec_end_time = std::clock();
+    _vector_sort_time = static_cast<double>(vec_end_time - vec_start_time) / CLOCKS_PER_SEC * 1000000;
+
+    std::clock_t deq_start_time = std::clock();
     mergeInsertionSortDeque(0, _deque_array.size() - 1);
+    std::clock_t deq_end_time = std::clock();
+    _deque_sort_time = static_cast<double>(deq_end_time - deq_start_time) / CLOCKS_PER_SEC * 1000000;
+
 }
 
 void PmergeMe::displayElapsedTime() {
