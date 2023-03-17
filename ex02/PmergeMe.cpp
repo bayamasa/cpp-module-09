@@ -1,19 +1,21 @@
 #include "PmergeMe.hpp"
 
-PmergeMe::PmergeMe()
-{
-}
-PmergeMe::~PmergeMe()
-{
-}
+PmergeMe::PmergeMe(){}
+PmergeMe::~PmergeMe(){}
+
 PmergeMe::PmergeMe(const PmergeMe &other)
 {
     *this = other;
+    
 }
 PmergeMe &PmergeMe::operator=(const PmergeMe &other)
 {
     if (this != &other)
     {
+        _vector_array = other._vector_array;
+        _deque_array = other._deque_array;
+        _vector_sort_time = other._vector_sort_time;
+        _deque_sort_time = other._deque_sort_time;
     }
     return *this;
 }
