@@ -62,7 +62,7 @@ std::map<std::string, float>::const_iterator BitcoinExchange::findLessEqual(cons
             --it;
         }
     } else if (it == _price.end() || it->first > key) {
-        return _price.end(); // Not found
+        return _price.end();
     }
 
     return it;
