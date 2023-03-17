@@ -1,13 +1,8 @@
 #include "BitcoinExchange.hpp"
 
-BitcoinExchange::BitcoinExchange()
-{
-}
+BitcoinExchange::BitcoinExchange(){}
 
-BitcoinExchange::~BitcoinExchange()
-{
-    // mapの要素をすべてdeleteする
-}
+BitcoinExchange::~BitcoinExchange(){}
 
 BitcoinExchange::BitcoinExchange(const BitcoinExchange &other)
 {

@@ -20,7 +20,6 @@ public:
     bool isExistsDate(const std::string &date);
     std::map<std::string, float>::const_iterator findLessEqual(const std::string& key);
     std::map<std::string, float>::const_iterator getPriceEnd();
-    
 };
 
 float stringToFloat(const std::string& input);

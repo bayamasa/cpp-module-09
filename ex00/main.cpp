@@ -69,55 +69,6 @@ bool isValidDate(const std::string& date) {
     return true;
 }
 
-
-void validateArg(std::string filename) {
-    std::string line;
-    std::string separator = "|";
-    
-    std::ifstream ifs(filename);
-    if (ifs.fail()) {
-        throw std::runtime_error("Error: could not open argument text");
-    }
-    
-    // header check
-    std::getline(ifs, line);
-    std::string::size_type pos = 0;
-    pos = line.find(separator);
-    if (pos == std::string::npos) {
-        throw std::runtime_error("Error: header format invalid");
-    }
-    std::string date = line.substr(0,pos); 
-    std::string value = line.substr(pos + 1, line.size());
-    if (date != "date " || value != " value") {
-        throw std::runtime_error("Error: header format invalid. ex) 'date | value'");
-    }
-    
-    // body
-    pos = 0;
-    size_t line_count = 1;
-    while (std::getline(ifs, line))
-    {
-        pos = line.find(separator);
-        if (pos == std::string::npos) {
-             throw std::runtime_error("Error: txt format");
-        }
-        std::string date = line.substr(0,pos);
-        std::string value = line.substr(pos + 1, line.size());
-        
-        // 文字列チェック
-        if (date.empty() || value.empty()) {
-            std::cerr << "Error: line count: " << line_count << std::endl;
-            throw std::runtime_error("Error: attribute is blank.");
-        }
-        
-        if (date[date.size() - 1] != ' ' || value[0] != ' ') {
-            std::cerr << "Error: line count: " << line_count << std::endl;
-            throw std::runtime_error("Error: attribute needs space. ex) 'date | value'");
-        }
-    }
-    ifs.close();
-}
-
 void displayExchangeRate(BitcoinExchange *bic, std::string filename) {
     std::string line;
     std::string separator = "|";
@@ -209,7 +160,6 @@ int main(int argc, char const *argv[])
     try
     {
         bitcoinExchange = storeCsvInMemory();
-        // validateArg(filename);
         displayExchangeRate(bitcoinExchange ,filename);
     }
     catch(const std::exception& e)
