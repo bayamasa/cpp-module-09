@@ -26,13 +26,13 @@ int main(int argc, char const *argv[])
             }
             catch(const std::exception& e)
             {
-                std::cerr << e.what() << '\n';
+                std::cout << e.what() << '\n';
                 std::exit(EXIT_FAILURE);
             }
         } else if (std::isspace(ch)) {
             continue;
         } else {
-            std::cerr << "Error: encountered invalid token: " << ch << std::endl;
+            std::cout << "Error: encountered invalid token: " << ch << std::endl;
             std::exit(EXIT_FAILURE);
         }
     }
@@ -41,7 +41,7 @@ int main(int argc, char const *argv[])
     }
     catch(const std::exception& e)
     {
-        std::cerr << e.what() << '\n';
+        std::cout << e.what() << '\n';
         std::exit(EXIT_FAILURE);
     }
     return 0;
