@@ -89,7 +89,7 @@ void displayExchangeRate(BitcoinExchange *bic, std::string filename) {
         line_count++;
         pos = line.find(separator);
         if (pos == std::string::npos) {
-            std::cerr << "Error: bad input => " << line << std::endl;
+            std::cout << "Error: bad input => " << line << std::endl;
             continue;
         }
         std::string date = line.substr(0,pos);
@@ -164,7 +164,7 @@ int main(int argc, char const *argv[])
     }
     catch(const std::exception& e)
     {
-        std::cerr << e.what() << '\n';
+        std::cout << e.what() << '\n';
         delete bitcoinExchange;
         std::exit(EXIT_FAILURE);
     }

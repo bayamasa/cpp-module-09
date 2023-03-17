@@ -24,7 +24,7 @@ float stringToFloat(const std::string& input) {
     ss >> result;
 
     if (ss.fail()) {
-        std::cerr << "input: " << input << std::endl;
+        std::cout << "input: " << input << std::endl;
         throw std::runtime_error("Error: could not convert string to float");
     }
     return result;
@@ -40,7 +40,7 @@ void BitcoinExchange::add(const std::string &date, const std::string &rate) {
     }
     catch(const std::exception& e)
     {
-        std::cerr << e.what() << '\n';
+        std::cout << e.what() << '\n';
     }
     // 基本的にdata.csvは課題によって与えられるもので変更はないものとする。
     _price[date] = ratef;
