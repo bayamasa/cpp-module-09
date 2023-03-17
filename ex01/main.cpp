@@ -12,27 +12,27 @@ int main(int argc, char const *argv[])
     
     RPN rpn;
     
-    std::istringstream iss(argv[1]);
-    std::string token;
-    while (iss >> token) {
-        if (std::isdigit(token.at(0)) && token.size() == 1) {
-            int num = std::atoi(token.c_str());
+    std::string input = argv[1];
+    for (size_t i = 0; i < input.size(); ++i) {
+        char ch = input[i];
+        if (std::isdigit(ch)) {
+            int num = ch - '0';
             rpn.push(num);
-            // std::cout << "Read integer: " << num << std::endl;
-        } else if (token.size() == 1 && (token.at(0) == '+' || token.at(0) == '-' || token.at(0) == '*' || token.at(0) == '/')) {
-            // std::cout << "Read operator: " << token.at(0) << std::endl;
+        } else if (ch == '+' || ch == '-' || ch == '*' || ch == '/') {
             try
             {
                 if (rpn.isEnoughSize()) 
-                    rpn.calc(token.at(0));
+                    rpn.calc(ch);
             }
             catch(const std::exception& e)
             {
                 std::cerr << e.what() << '\n';
                 std::exit(EXIT_FAILURE);
             }
+        } else if (std::isspace(ch)) {
+            continue;
         } else {
-            std::cerr << "Error: encountered invalid token: " << token << std::endl;
+            std::cerr << "Error: encountered invalid token: " << ch << std::endl;
             std::exit(EXIT_FAILURE);
         }
     }
