@@ -2,6 +2,7 @@
 #include <iostream>
 #include <sstream>
 #include <cctype>
+#include <algorithm>
 
 int main(int argc, char const *argv[])
 {  
@@ -12,18 +13,19 @@ int main(int argc, char const *argv[])
     PmergeMe pmergeMe;
     size_t num;
         
-    size_t i = 1;
+    int i = 1;
     while (i < argc) {
         std::istringstream iss(argv[i]);
         if (iss >> num)
         {
             pmergeMe.addNumber(num);
         } else {
-            std::cout << "Error: not a number" << argv[i] << std::endl;
+            std::cout << "Error: not a valid number" << argv[i] << std::endl;
             std::exit(EXIT_FAILURE);
         }
         i++;
     }
     pmergeMe.displayAllVectorAttr(true);
-    
+    pmergeMe.sort();
+    pmergeMe.displayAllVectorAttr(false);
 }

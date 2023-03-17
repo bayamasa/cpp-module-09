@@ -5,7 +5,7 @@ CXX				= c++
 RM				= rm -f
 CXXFLAGS		= -Wall -Wextra -Werror -I. -std=c++98 -pedantic
 
-NAME			= RPN
+NAME			= PmergeMe
 
 all:			$(NAME)
 
