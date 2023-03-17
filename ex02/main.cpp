@@ -11,13 +11,18 @@ int main(int argc, char const *argv[])
         std::exit(EXIT_FAILURE);
     }
     PmergeMe pmergeMe;
-    size_t num;
+    int num;
         
     int i = 1;
     while (i < argc) {
         std::istringstream iss(argv[i]);
         if (iss >> num)
         {
+            if (num <= 0)
+            {
+                std::cout << "Error: not a positive integer " << argv[i] << std::endl;
+                std::exit(EXIT_FAILURE);
+            }
             pmergeMe.addNumber(num);
         } else {
             std::cout << "Error: not a valid number" << argv[i] << std::endl;
