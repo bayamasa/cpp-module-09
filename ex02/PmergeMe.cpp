@@ -36,11 +36,6 @@ void PmergeMe::displayAllVectorAttr(bool isBefore) {
     size_t i = 0;
     while (itr != _vector_array.end()) {
         std::cout << *itr++ << " ";
-        if (i == 4)
-        {
-            std::cout << "[...]";
-            break;
-        }
         i++;
     }
         
@@ -175,7 +170,7 @@ void PmergeMe::mergeInsertionSortDeque(int left, int right) {
 }
 
 void PmergeMe::sort() {
-    _threshold = 2;
+    _threshold = 5;
     std::clock_t vec_start_time = std::clock();
     mergeInsertionSortVector(0, _vector_array.size() - 1);
     std::clock_t vec_end_time = std::clock();
