@@ -14,7 +14,6 @@ BitcoinExchange *storeCsvInMemory() {
     std::string line;
     std::string separator = ",";
     
-    // 最初の行は読み飛ばす
     std::getline(ifs, line);
     
     while (std::getline(ifs, line))
@@ -79,13 +78,15 @@ void displayExchangeRate(BitcoinExchange *bic, std::string filename) {
     }
     
     // header
-    std::getline(ifs, line);
     std::string::size_type pos = 0;
     
     // body
     size_t line_count = 0;
     while (std::getline(ifs, line))
     {
+        if (line == "date | value")
+            continue;
+        
         line_count++;
         pos = line.find(separator);
         if (pos == std::string::npos) {
@@ -148,9 +149,9 @@ void displayExchangeRate(BitcoinExchange *bic, std::string filename) {
             std::map<std::string, float>::const_iterator it = bic->findLessEqual(date);
             rate = it->second;
             if (it != bic->getPriceEnd()) {
-                std::cout << date << " => " << value << " = " << rate * valuef << std::endl;
+                std::cout << date << " => " << value << " = " << std::fixed << rate * valuef << std::endl;
             } else {
-                std::cout << "Error: bad input => " << line << std::endl;
+                std::cout << "Error: no date in database => " << line << std::endl;
             }
         }
     }
@@ -160,7 +161,7 @@ void displayExchangeRate(BitcoinExchange *bic, std::string filename) {
 int main(int argc, char const *argv[])
 {
     if (argc != 2) {
-        std::cout << "Error: need text file in args" << std::endl;
+        std::cout << "Error: args example : ./btc input.txt" << std::endl;
         std::exit(EXIT_FAILURE);
     }
 
