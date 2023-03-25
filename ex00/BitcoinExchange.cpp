@@ -18,13 +18,13 @@ BitcoinExchange &BitcoinExchange::operator=(const BitcoinExchange &other)
     return *this;
 }
 
-float stringToFloat(const std::string& input) {
+double stringToDouble(const std::string& input) {
     std::stringstream ss(input);
-    float result;
+    double result;
     ss >> result;
 
     if (ss.fail()) {
-        throw std::runtime_error("Error: could not convert string to float");
+        throw std::runtime_error("Error: could not convert string to double");
     }
     if (!ss.eof()) {
         throw std::runtime_error("Error: extra characters exist");
@@ -35,11 +35,11 @@ float stringToFloat(const std::string& input) {
 
 
 void BitcoinExchange::add(const std::string &date, const std::string &rate) {
-    float ratef;
+    double ratef;
     
     try
     {
-        ratef = stringToFloat(rate);
+        ratef = stringToDouble(rate);
     }
     catch(const std::exception& e)
     {
@@ -49,7 +49,7 @@ void BitcoinExchange::add(const std::string &date, const std::string &rate) {
     _price[date] = ratef;
 }
 
-float BitcoinExchange::getRateByDate(const std::string &date) {
+double BitcoinExchange::getRateByDate(const std::string &date) {
     return _price[date];
 }
 
@@ -57,8 +57,8 @@ bool BitcoinExchange::isExistsDate(const std::string &date) {
     return _price.count(date);
 }
 
-std::map<std::string, float>::const_iterator BitcoinExchange::findLessEqual(const std::string& key) {
-       std::map<std::string, float>::const_iterator it = _price.lower_bound(key);
+std::map<std::string, double>::const_iterator BitcoinExchange::findLessEqual(const std::string& key) {
+       std::map<std::string, double>::const_iterator it = _price.lower_bound(key);
 
     if (it != _price.begin()) {
         if (it == _price.end() || it->first != key) {
@@ -71,6 +71,6 @@ std::map<std::string, float>::const_iterator BitcoinExchange::findLessEqual(cons
     return it;
 }
 
-std::map<std::string, float>::const_iterator BitcoinExchange::getPriceEnd() {
+std::map<std::string, double>::const_iterator BitcoinExchange::getPriceEnd() {
     return _price.end();
 }

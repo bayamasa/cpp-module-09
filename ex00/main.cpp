@@ -113,10 +113,10 @@ void displayExchangeRate(BitcoinExchange *bic, std::string filename) {
         value = line.substr(pos + 2, line.size());
         
         // 値チェック
-        float valuef;
+        double valuef;
         try
         {
-           valuef = stringToFloat(value);
+           valuef = stringToDouble(value);
         }
         catch(const std::exception& e)
         {
@@ -135,18 +135,18 @@ void displayExchangeRate(BitcoinExchange *bic, std::string filename) {
             std::cout << "Error: bad input => " << line << std::endl;
             continue;
         }
-        float rate;
+        double rate;
         if (bic->isExistsDate(date))
         {
             rate = bic->getRateByDate(date);
-            float valuef = stringToFloat(value);
+            double valuef = stringToDouble(value);
             
             std::cout << date << " => " << value << " = " << rate * valuef << std::endl;
             
             
         } else {
             // 直近のレートを探す。
-            std::map<std::string, float>::const_iterator it = bic->findLessEqual(date);
+            std::map<std::string, double>::const_iterator it = bic->findLessEqual(date);
             rate = it->second;
             if (it != bic->getPriceEnd()) {
                 std::cout << date << " => " << value << " = " << std::fixed << rate * valuef << std::endl;

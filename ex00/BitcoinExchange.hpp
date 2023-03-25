@@ -9,19 +9,19 @@
 class BitcoinExchange
 {
 private:
-    std::map<std::string, float> _price;
+    std::map<std::string, double> _price;
 public:
     BitcoinExchange();
     ~BitcoinExchange();
     BitcoinExchange(const BitcoinExchange &other);
     BitcoinExchange &operator=(const BitcoinExchange &other);
     void add(const std::string &date, const std::string &rate);
-    float getRateByDate(const std::string &date);
+    double getRateByDate(const std::string &date);
     bool isExistsDate(const std::string &date);
-    std::map<std::string, float>::const_iterator findLessEqual(const std::string& key);
-    std::map<std::string, float>::const_iterator getPriceEnd();
+    std::map<std::string, double>::const_iterator findLessEqual(const std::string& key);
+    std::map<std::string, double>::const_iterator getPriceEnd();
 };
 
-float stringToFloat(const std::string& input);
+double stringToDouble(const std::string& input);
 
 #endif
