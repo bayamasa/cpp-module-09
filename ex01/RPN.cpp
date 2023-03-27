@@ -7,6 +7,7 @@ RPN::RPN(const RPN &other)
 {
     *this = other;
 }
+
 RPN &RPN::operator=(const RPN &other)
 {
     if (this != &other)
@@ -45,6 +46,8 @@ void RPN::calc(char ope) {
     }
     if (res > INT_MAX)
         throw std::runtime_error("Error: greater than INT_MAX are not accepted.");
+    if (res < INT_MIN)
+        throw std::runtime_error("Error: less than INT_MIN are not accepted.");
     _num_stack.push(res);
 }
 
