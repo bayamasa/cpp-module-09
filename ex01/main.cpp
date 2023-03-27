@@ -23,6 +23,8 @@ int main(int argc, char const *argv[])
             {
                 if (rpn.isEnoughSize()) 
                     rpn.calc(ch);
+                else 
+                    std::runtime_error("Error: syntax error");
             }
             catch(const std::exception& e)
             {

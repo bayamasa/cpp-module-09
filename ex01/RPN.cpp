@@ -16,14 +16,14 @@ RPN &RPN::operator=(const RPN &other)
     return *this;
 }
 
-void RPN::push(int num) {
+void RPN::push(long num) {
     _num_stack.push(num);
 }
 
 void RPN::calc(char ope) {
-    int first_operand;
-    int second_operand;
-    int res;
+    long first_operand;
+    long second_operand;
+    long res;
 
     second_operand = _num_stack.top();
     _num_stack.pop();
@@ -40,9 +40,11 @@ void RPN::calc(char ope) {
     } else 
     {
         if (second_operand == 0)
-            throw std::runtime_error("Math Error: divided by zero");
+            throw std::runtime_error("Error: divided by zero");
         res = first_operand / second_operand;
     }
+    if (res > INT_MAX)
+        throw std::runtime_error("Error: greater than INT_MAX are not accepted.");
     _num_stack.push(res);
 }
 
